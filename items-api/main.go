@@ -2,14 +2,17 @@ package main
 
 import (
 	"fmt"
+	"items-api/internal/handlers"
 	"net/http"
+
+	chi "github.com/go-chi/chi/v5"
 )
 
 func main() {
-	http.HandleFunc("/items", GetItems)
-	http.ListenAndServe(":8090", nil)
-}
+	router := chi.NewRouter()
 
-func GetItems(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintln(w, "no-items\n")
+	router.Get("/items", handlers.GetItems)
+
+	fmt.Println("server started :8080")
+	http.ListenAndServe(":8080", router)
 }
